@@ -68,3 +68,9 @@ const selectorDisplay = () => {
 }
 
 selectorDisplay();
+
+/**
+ * HTMLInputElement
+ */
+const calendar = document.getElementById('calendar-picker');
+calendar.setAttribute('value', new Date().toISOString().substring(0, 10));
