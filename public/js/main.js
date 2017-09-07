@@ -41,10 +41,10 @@ initializeTime();
  */
 const selectorDisplayView = (view, day, date) => {
 
-    const weekDay = document.createElement('p');
+    const weekDay = document.createElement('h5');
     weekDay.innerText = day;
 
-    const weekDate = document.createElement('p');
+    const weekDate = document.createElement('h6');
     weekDate.innerText = date;
 
     const weekCircle = document.createElement('div');
