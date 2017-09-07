@@ -6,12 +6,20 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>GlassBook</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css">
-
+  <link rel="stylesheet" href="./public/styles/main.css">
 </head>
 <body>
 
-  <div class="banner">
+  <div class="toolbar">
     GlassBook
+  </div>
+  <div class="sub-toolbar">
+      <p class="date">
+        <span id="current-date"></span>
+      </p>
+      <p class="time">
+        Time: <span id="timer"></span>
+      </p>
   </div>
   <script src="./public/js/utils/glassbookAPI.js"></script>
   <script src="./public/js/main.js"></script>
