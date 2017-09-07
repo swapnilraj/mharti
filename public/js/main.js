@@ -34,3 +34,26 @@ const updateDate = (currentDate, day) => {
 setInterval(initializeTime, 1000);
 initializeTime();
 
+/**
+ *
+ * @param {HTMLElement} view
+ * @param {{}} day
+ */
+const selectorDisplayView = (view, day) => {
+    const weekCircle = document.createElement('div');
+    weekCircle.classList.add('weekCircle');
+    weekCircle.innerText = day;
+    view.appendChild(weekCircle);
+  }
+
+const selectorDisplay = () => {
+  const week = document.getElementById('week-view');
+  const date = new Date();
+
+  days.forEach((day, index) => {
+    const dayIndex = (date.getDay() + index) % 7;
+    selectorDisplayView(week, days[dayIndex]);
+  });
+}
+
+selectorDisplay();
