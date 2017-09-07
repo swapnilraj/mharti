@@ -39,10 +39,19 @@ initializeTime();
  * @param {HTMLElement} view
  * @param {{}} day
  */
-const selectorDisplayView = (view, day) => {
+const selectorDisplayView = (view, day, date) => {
+
+    const weekDay = document.createElement('p');
+    weekDay.innerText = day;
+
+    const weekDate = document.createElement('p');
+    weekDate.innerText = date;
+
     const weekCircle = document.createElement('div');
     weekCircle.classList.add('weekCircle');
-    weekCircle.innerText = day;
+    weekCircle.appendChild(weekDay);
+    weekCircle.appendChild(weekDate);
+
     view.appendChild(weekCircle);
   }
 
@@ -52,7 +61,9 @@ const selectorDisplay = () => {
 
   days.forEach((day, index) => {
     const dayIndex = (date.getDay() + index) % 7;
-    selectorDisplayView(week, days[dayIndex]);
+    const dateIndex = date.getDate() + index;
+    const dayView = days[dayIndex]
+    selectorDisplayView(week, dayView, dateIndex );
   });
 }
 
