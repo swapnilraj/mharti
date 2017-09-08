@@ -8,10 +8,9 @@ const BASE_URL = 'http://localhost:3000/v1/rooms/';
 const checkAll = (credentials = '') => {
   const url = BASE_URL + 'all' + (credentials ? ('?credentials=' + credentials) : '');
 
-  fetch(url)
+  return fetch(url)
   .then(response => response.json())
-  .then(data => console.log(data))
-  .catch(err => console.error(err));
+  .catch(err => (console.error(err), null));
 };
 
 /**
@@ -22,10 +21,9 @@ const checkRoom = (room, credentials = '') => {
   const url = BASE_URL + 'check' + '?room=' + room +
   (credentials ? ('&credentials=' + credentials) : '');
 
-  fetch(url)
+  return fetch(url)
   .then(response => response.json())
-  .then(data => console.log(data))
-  .catch(err => console.error(err));
+  .catch(err => (console.log(err), null));
 };
 
 /**
@@ -46,8 +44,7 @@ const bookRoom = (room, credentials, time, date, month, year) => {
   '&month=' + month +
   '&year=' + year;
 
-  fetch(url)
+  return fetch(url)
   .then(response => response.json())
-  .then(data => console.log(data))
-  .catch(err => console.error(err));
+  .catch(err => (console.error(err), null));
 };
