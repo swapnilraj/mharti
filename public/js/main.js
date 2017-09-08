@@ -161,7 +161,7 @@ const injectRoomsView = (element) => {
   const time = getValue('data-glass-time');
   const date = getValue('data-glass-date');
   const month = getValue('data-glass-month');
-  const year = getValue('data-glass-year')
+  const year = getValue('data-glass-year');
 
   const roomsView = generateRoomsView(time, date, month, year);
   element.appendChild(roomsView);
@@ -174,7 +174,21 @@ const injectRoomsView = (element) => {
 const handleRoom = (event) => {
   if (event.target.closest('div.room')) {
     event.preventDefault();
-    console.log(event.target);
+    const username = prompt('Enter username:');
+    const password = prompt('Enter password:');
+
+    const credentials = btoa(`${username}:${password}`);
+    const getValue = event.target.getAttribute.bind(event.target);
+    const room = getValue('data-glass-room');
+    const time = getValue('data-glass-time');
+    const date = getValue('data-glass-date');
+    const month = getValue('data-glass-month');
+    const year = getValue('data-glass-year');
+
+    bookRoom(room, credentials, time, date, month, year)
+      .then(response => {
+        alert(response.message);
+      });
   }
 };
 
@@ -194,7 +208,7 @@ const handleWeek = (event) => {
     const key = `${data.date} ${months[data.month - 1].substring(0,3)} ${data.year}`
 
     checkAllP.then(() => {
-        window.currentDate = window.allRooms[key] || {};
+        window.currentDate = window.allRooms[key] || [];
     });
     timeSlotsView(data);
   }
