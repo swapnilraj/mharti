@@ -1,6 +1,6 @@
 'use strict';
 
-const BASE_URL = 'http://localhost:3000/v1/rooms/';
+const BASE_URL = 'https://gb.sixth.io/v1/rooms/';
 
 /**
  * API call to check availability of all rooms
