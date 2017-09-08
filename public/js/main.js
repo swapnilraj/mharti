@@ -96,10 +96,7 @@ const buttonGenerator = (time, isFuture) => {
     button.classList.add('muted')
   }
 
-  const timeSlot = document.createElement('p');
-  timeSlot.innerText = `${time}:00 - ${time + 1}:00`;
-
-  button.appendChild(timeSlot);
+  button.innerText = `${time}:00 - ${time + 1}:00`;
   return button;
 };
 
@@ -118,19 +115,27 @@ const handleWeek = (event) => {
   if (event.target.matches('div.weekCircle')) {
     timeSlotsView(event.target.querySelector('h6').innerText);
   }
-}
+};
 
+/**
+ *
+ * @param {MouseEvent} event
+ */
+const handleTime = (event) => {
 
+  if(event.target.matches('div.button') && !event.target.matches('div.muted')) {
+    console.log(event);
+  }
+};
 
+setInterval(initializeTime, 1000);
+initializeTime();
+selectorDisplay();
 /**
  * HTMLInputElement
  */
 const calendar = document.getElementById('calendar-picker');
 calendar.setAttribute('value', today.toISOString().substring(0, 10));
 
-selectorDisplay();
-
 weekView.addEventListener('click', handleWeek);
-
-setInterval(initializeTime, 1000);
-initializeTime();
+timeView.addEventListener('click', handleTime);
