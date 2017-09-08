@@ -4,17 +4,41 @@
  */
 const timer = document.getElementById('timer');
 const date = document.getElementById('current-date');
-const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+const days = [
+  'Sunday',
+  'Monday',
+  'Tuesday',
+  'Wednesday',
+  'Thursday',
+  'Friday',
+  'Saturday'
+];
+const months = [
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December'
+];
+
+const today = new Date();
 
 const initializeTime = () => {
-  const time = new Date();
-  const hour = time.getHours();
-  const minute = time.getMinutes();
-  const second = time.getSeconds();
-  const date = time.getDate();
-  const day = time.getDay();
+  const hour = today.getHours();
+  const minute = today.getMinutes();
+  const second = today.getSeconds();
+  const date = today.getDate();
+  const day = today.getDay();
 
-  updateDate(date, day);
+  updateDate(date,
+     day);
   updateClock(hour, minute, second);
 };
 
@@ -39,13 +63,14 @@ initializeTime();
  * @param {HTMLElement} view
  * @param {{}} day
  */
-const selectorDisplayView = (view, day, date) => {
+const selectorDisplayView = (view, day, date, month) => {
 
     const weekDay = document.createElement('h5');
     weekDay.innerText = day;
 
     const weekDate = document.createElement('h6');
-    weekDate.innerText = date;
+    console.log(month);
+    weekDate.innerText = date + ' ' + months[month].substring(0, 3);
 
     const weekCircle = document.createElement('div');
     weekCircle.classList.add('weekCircle');
@@ -57,13 +82,14 @@ const selectorDisplayView = (view, day, date) => {
 
 const selectorDisplay = () => {
   const week = document.getElementById('week-view');
-  const date = new Date();
 
   days.forEach((day, index) => {
-    const dayIndex = (date.getDay() + index) % 7;
-    const dateIndex = date.getDate() + index;
+    const dayIndex = (today.getDay() + index) % 7;
+    const dateIndex = today.getDate() + index;
+    const monthIndex = today.getMonth();
+
     const dayView = days[dayIndex]
-    selectorDisplayView(week, dayView, dateIndex );
+    selectorDisplayView(week, dayView, dateIndex, monthIndex);
   });
 }
 
@@ -73,4 +99,4 @@ selectorDisplay();
  * HTMLInputElement
  */
 const calendar = document.getElementById('calendar-picker');
-calendar.setAttribute('value', new Date().toISOString().substring(0, 10));
+calendar.setAttribute('value', today.toISOString().substring(0, 10));

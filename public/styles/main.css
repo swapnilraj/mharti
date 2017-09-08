@@ -64,3 +64,6 @@ div.weekCircle {
   margin: 16px;
 }
 
+.weekCircle h6 {
+  color: #A8A8A8;
+}
