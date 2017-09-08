@@ -128,14 +128,15 @@ const generateRoomsView = (time, date, month, year) => {
   const roomsView = document.createElement('div');
   roomsView.id = 'rooms-view';
   new Array(9).fill(0).forEach((_, index)=> {
-    const room = document.createElement('span');
-
+    const room = document.createElement('div');
+    room.classList.add('room')
     room.setAttribute('data-glass-room', index + 1);
     room.setAttribute('data-glass-time', time);
     room.setAttribute('data-glass-date', date);
     room.setAttribute('data-glass-month', month);
     room.setAttribute('data-glass-year', year);
 
+    room.innerText = index + 1;
     roomsView.appendChild(room)
   });
 
@@ -150,7 +151,6 @@ const injectRoomsView = (element) => {
   const year = getValue('data-glass-year')
 
   const roomsView = generateRoomsView(time, date, month, year);
-  console.log(roomsView);
   element.appendChild(roomsView);
 };
 
