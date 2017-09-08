@@ -1,4 +1,3 @@
-
 /**
  * HTMLDivELement
  */
@@ -60,7 +59,7 @@ const updateDate = (currentDate, day) => {
 /**
  *
  * @param {HTMLElement} view
- * @param {{}} day
+ * @param {Object} day
  */
 const selectorDisplayView = (view, day, date, month) => {
 
@@ -116,6 +115,36 @@ const timeSlotsView = (data) => {
   });
 };
 
+const generateRoomsView = (time, date, month, year) => {
+  const roomsView = document.createElement('div');
+  roomsView.id = 'rooms-view';
+  new Array(9).fill(0).forEach((_, index)=> {
+    const room = document.createElement('span');
+
+    room.setAttribute('data-glass-room', index + 1);
+    room.setAttribute('data-glass-time', time);
+    room.setAttribute('data-glass-date', date);
+    room.setAttribute('data-glass-month', month);
+    room.setAttribute('data-glass-year', year);
+
+    roomsView.appendChild(room)
+  });
+
+  return roomsView;
+}
+
+const injectRoomsView = (element) => {
+  const getValue = element.getAttribute.bind(element);
+  const time = getValue('data-glass-time');
+  const date = getValue('data-glass-date');
+  const month = getValue('data-glass-month');
+  const year = getValue('data-glass-year')
+
+  const roomsView = generateRoomsView(time, date, month, year);
+  console.log(roomsView);
+  element.appendChild(roomsView);
+};
+
 /**
  *
  * @param {MouseEvent} event
@@ -140,7 +169,7 @@ const handleWeek = (event) => {
  */
 const handleTime = (event) => {
   if(event.target.matches('div.button') && !event.target.matches('div.muted')) {
-    console.log(event);
+    injectRoomsView(event.target)
   }
 };
 
