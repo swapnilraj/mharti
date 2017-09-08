@@ -89,11 +89,10 @@ const selectorDisplay = () => {
   });
 }
 
-const buttonGenerator = (time) => {
+const buttonGenerator = (time, isFuture) => {
   const button = document.createElement('div');
   button.classList.add('button');
-
-  if(time < new Date().getHours()) {
+  if(time < new Date().getHours() + 1 && !isFuture) {
     button.classList.add('muted')
   }
 
@@ -105,9 +104,9 @@ const buttonGenerator = (time) => {
 };
 
 const timeSlotsView = (date) => {
-  const fullDate = date + ' ' + today.getFullYear();
+  const date_ = date.split(' ')[0];
   new Array(24).fill(0).forEach((_, index) => {
-    timeView.appendChild(buttonGenerator(index));
+    timeView.appendChild(buttonGenerator(index, date_ > today.getDate()));
   });
 };
 
