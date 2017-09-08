@@ -114,7 +114,7 @@ const buttonGenerator = (time, isFuture, data) => {
   button.setAttribute('data-glass-month', data.month);
   button.setAttribute('data-glass-year', data.year);
 
-  button.innerText = `${time}:00 - ${time + 1}:00`;
+  button.innerText = `${time}:00-${time + 1}:00`;
   return button;
 };
 
@@ -125,12 +125,25 @@ const timeSlotsView = (data) => {
 };
 
 const generateRoomsView = (time, date, month, year) => {
+
+  const bookedRooms = window
+    .currentDate
+    .map(booking => booking.room);
+
+  const bookedTimes = window
+    .currentDate
+    .map(booking => (parseInt(booking.time.slice(0, 2))).toString());
+
+  const matchingTime = bookedTimes.indexOf(time) > -1;
+
   const roomsView = document.createElement('div');
   roomsView.id = 'rooms-view';
   new Array(9).fill(0).forEach((_, index)=> {
+    const roomNumber = index + 1;
+    const isBooked = matchingTime && bookedRooms.indexOf(roomNumber) > -1;
     const room = document.createElement('div');
-    room.classList.add('room')
-    room.setAttribute('data-glass-room', index + 1);
+    room.classList.add('room', isBooked ? 'booked' : 'available');
+    room.setAttribute('data-glass-room', roomNumber);
     room.setAttribute('data-glass-time', time);
     room.setAttribute('data-glass-date', date);
     room.setAttribute('data-glass-month', month);
@@ -155,6 +168,17 @@ const injectRoomsView = (element) => {
 };
 
 /**
+ * Listen to clicks on time slots
+ * @param {MouseEvent} event
+ */
+const handleRoom = (event) => {
+  if (event.target.closest('div.room')) {
+    event.preventDefault();
+    console.log(event.target);
+  }
+};
+
+/**
  *
  * @param {MouseEvent} event
  */
@@ -170,7 +194,7 @@ const handleWeek = (event) => {
     const key = `${data.date} ${months[data.month - 1].substring(0,3)} ${data.year}`
 
     checkAllP.then(() => {
-        window.currentDate = window.allRooms[key];
+        window.currentDate = window.allRooms[key] || {};
     });
     timeSlotsView(data);
   }
@@ -182,7 +206,9 @@ const handleWeek = (event) => {
  */
 const handleTime = (event) => {
   if(event.target.matches('div.button') && !event.target.matches('div.muted')) {
-    injectRoomsView(event.target)
+    injectRoomsView(event.target);
+  } else {
+    handleRoom(event);
   }
 };
 
