@@ -1,4 +1,13 @@
 /**
+ * API response variables
+ */
+window.allRooms = {};
+window.currentDate = {};
+window.room = {};
+
+const checkAllP = checkAll().then(data => window.allRooms = data);
+
+/**
  * HTMLDivELement
  */
 const timer = document.getElementById('timer');
@@ -158,7 +167,11 @@ const handleWeek = (event) => {
       month: getValue('data-glass-month'),
       year: getValue('data-glass-year'),
     };
+    const key = `${data.date} ${months[data.month - 1].substring(0,3)} ${data.year}`
 
+    checkAllP.then(() => {
+        window.currentDate = window.allRooms[key];
+    });
     timeSlotsView(data);
   }
 };
