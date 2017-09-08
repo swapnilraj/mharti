@@ -4,6 +4,8 @@
  */
 const timer = document.getElementById('timer');
 const date = document.getElementById('current-date');
+const weekView = document.getElementById('week-view');
+const timeView = document.getElementById('time-view');
 const days = [
   'Sunday',
   'Monday',
@@ -31,14 +33,14 @@ const months = [
 const today = new Date();
 
 const initializeTime = () => {
-  const hour = today.getHours();
-  const minute = today.getMinutes();
-  const second = today.getSeconds();
-  const date = today.getDate();
-  const day = today.getDay();
+  const currentTime = new Date();
+  const hour = currentTime.getHours();
+  const minute = currentTime.getMinutes();
+  const second = currentTime.getSeconds();
+  const date = currentTime.getDate();
+  const day = currentTime.getDay();
 
-  updateDate(date,
-     day);
+  updateDate(date, day);
   updateClock(hour, minute, second);
 };
 
@@ -55,9 +57,6 @@ const updateDate = (currentDate, day) => {
   date.innerText = `${days[day]}, ${currentDate}`;
 };
 
-setInterval(initializeTime, 1000);
-initializeTime();
-
 /**
  *
  * @param {HTMLElement} view
@@ -69,7 +68,6 @@ const selectorDisplayView = (view, day, date, month) => {
     weekDay.innerText = day;
 
     const weekDate = document.createElement('h6');
-    console.log(month);
     weekDate.innerText = date + ' ' + months[month].substring(0, 3);
 
     const weekCircle = document.createElement('div');
@@ -81,22 +79,59 @@ const selectorDisplayView = (view, day, date, month) => {
   }
 
 const selectorDisplay = () => {
-  const week = document.getElementById('week-view');
-
   days.forEach((day, index) => {
     const dayIndex = (today.getDay() + index) % 7;
     const dateIndex = today.getDate() + index;
     const monthIndex = today.getMonth();
 
     const dayView = days[dayIndex]
-    selectorDisplayView(week, dayView, dateIndex, monthIndex);
+    selectorDisplayView(weekView, dayView, dateIndex, monthIndex);
   });
 }
 
-selectorDisplay();
+const buttonGenerator = (time) => {
+  const button = document.createElement('div');
+  button.classList.add('button');
+
+  if(time < new Date().getHours()) {
+    button.classList.add('muted')
+  }
+
+  const timeSlot = document.createElement('p');
+  timeSlot.innerText = `${time}:00 - ${time + 1}:00`;
+
+  button.appendChild(timeSlot);
+  return button;
+};
+
+const timeSlotsView = (date) => {
+  const fullDate = date + ' ' + today.getFullYear();
+  new Array(24).fill(0).forEach((_, index) => {
+    timeView.appendChild(buttonGenerator(index));
+  });
+};
+
+/**
+ *
+ * @param {MouseEvent} event
+ */
+const handleWeek = (event) => {
+  if (event.target.matches('div.weekCircle')) {
+    timeSlotsView(event.target.querySelector('h6').innerText);
+  }
+}
+
+
 
 /**
  * HTMLInputElement
  */
 const calendar = document.getElementById('calendar-picker');
 calendar.setAttribute('value', today.toISOString().substring(0, 10));
+
+selectorDisplay();
+
+weekView.addEventListener('click', handleWeek);
+
+setInterval(initializeTime, 1000);
+initializeTime();
