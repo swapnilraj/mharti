@@ -197,8 +197,9 @@ const handleRoom = (event) => {
  * @param {MouseEvent} event
  */
 const handleWeek = (event) => {
-  if (event.target.matches('div.weekCircle')) {
-    const getValue = event.target.getAttribute.bind(event.target);
+  const weekDiv = event.target.closest('div.weekCircle');
+  if (weekDiv) {
+    const getValue = value => weekDiv.getAttribute(value);
 
     data = {
       date: getValue('data-glass-date'),
