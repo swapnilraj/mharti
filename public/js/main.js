@@ -75,6 +75,11 @@ const selectorDisplayView = (view, day, date, month) => {
     weekCircle.appendChild(weekDay);
     weekCircle.appendChild(weekDate);
 
+    weekCircle.setAttribute('data-glass-day', day);
+    weekCircle.setAttribute('data-glass-date', date);
+    weekCircle.setAttribute('data-glass-month', month+1);
+    weekCircle.setAttribute('data-glass-year', today.getFullYear());
+
     view.appendChild(weekCircle);
   }
 
@@ -89,21 +94,25 @@ const selectorDisplay = () => {
   });
 }
 
-const buttonGenerator = (time, isFuture) => {
+const buttonGenerator = (time, isFuture, data) => {
   const button = document.createElement('div');
   button.classList.add('button');
   if(time < new Date().getHours() + 1 && !isFuture) {
     button.classList.add('muted')
   }
 
+  button.setAttribute('data-glass-time', time);
+  button.setAttribute('data-glass-date', data.date);
+  button.setAttribute('data-glass-month', data.month);
+  button.setAttribute('data-glass-year', data.year);
+
   button.innerText = `${time}:00 - ${time + 1}:00`;
   return button;
 };
 
-const timeSlotsView = (date) => {
-  const date_ = date.split(' ')[0];
+const timeSlotsView = (data) => {
   new Array(24).fill(0).forEach((_, index) => {
-    timeView.appendChild(buttonGenerator(index, date_ > today.getDate()));
+    timeView.appendChild(buttonGenerator(index, data.date > today.getDate(), data));
   });
 };
 
@@ -113,7 +122,15 @@ const timeSlotsView = (date) => {
  */
 const handleWeek = (event) => {
   if (event.target.matches('div.weekCircle')) {
-    timeSlotsView(event.target.querySelector('h6').innerText);
+    const getValue = event.target.getAttribute.bind(event.target);
+
+    data = {
+      date: getValue('data-glass-date'),
+      month: getValue('data-glass-month'),
+      year: getValue('data-glass-year'),
+    };
+
+    timeSlotsView(data);
   }
 };
 
@@ -122,7 +139,6 @@ const handleWeek = (event) => {
  * @param {MouseEvent} event
  */
 const handleTime = (event) => {
-
   if(event.target.matches('div.button') && !event.target.matches('div.muted')) {
     console.log(event);
   }
