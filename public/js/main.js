@@ -123,9 +123,11 @@ const buttonGenerator = (time, isFuture, data) => {
 };
 
 const timeSlotsView = (data) => {
+  const timeSlots = document.createElement('div');
   new Array(24).fill(0).forEach((_, index) => {
-    timeView.appendChild(buttonGenerator(index, data.date > today.getDate(), data));
+    timeSlots.appendChild(buttonGenerator(index, data.date > today.getDate(), data));
   });
+  return timeSlots;
 };
 
 const generateRoomsView = (time, date, month, year) => {
@@ -217,7 +219,9 @@ const handleWeek = (event) => {
     checkAllP.then(() => {
         window.currentDate = window.allRooms[key] || [];
     });
-    timeSlotsView(data);
+    const timeSlots = timeSlotsView(data);
+    const currentChild = timeView.firstElementChild;
+    timeView.replaceChild(timeSlots, currentChild);
   }
 };
 
