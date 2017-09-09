@@ -115,6 +115,10 @@ const buttonGenerator = (time, isFuture, data) => {
   button.setAttribute('data-glass-year', data.year);
 
   button.innerText = `${time}:00-${time + 1}:00`;
+  const placeholder = document.createElement('span');
+  placeholder.classList.add('hide');
+
+  button.appendChild(placeholder);
   return button;
 };
 
@@ -164,7 +168,9 @@ const injectRoomsView = (element) => {
   const year = getValue('data-glass-year');
 
   const roomsView = generateRoomsView(time, date, month, year);
-  element.appendChild(roomsView);
+
+  const currentView = element.firstElementChild;
+  element.replaceChild(roomsView, currentView);
 };
 
 /**
